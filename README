@@ -1,0 +1,73 @@
+Tuesday, October 25, 2011:
+
+Note: the following are instructions from a couple of years ago and a couple of QCodo versions ago ..
+there is a QCodo 0.3.4 (roughly ..) included that may work but probably will not unless your system
+is quite old. Development on QuasiCMS has slowed down in favor of some other projects. I am making
+this available for reference and interest only at the moment
+
+These notes are included for historical purposes - THIS README WILL BE REPLACED AS SOON AS THERE
+IS A NEW RELEASE, until then this whole repository is NOT RECOMMENDED for use unless you are
+a developer and curious .. as soon as development resumes in ernest I have some radical changes planned
+so do not depend on the structure or API.
+
+***************************************************************************************
+
+Sun Nov 30 2008:
+ This is the 0.2-beta release of Quasi - it is functional but very rough and there is a TODO list about
+100 miles long .. still, it is usable and you can make a website with it. Be aware that access control is
+still unimplemented and there are likely to be many bugs.
+ 
+ Security is low (if any), USE AT YOUR OWN RISK!!
+
+This release is intended primarily for developers.
+
+ That said, hey - it works. And if you are a developer or even have some basic programming ability you
+may find it a nice framework to work with and/or learn from. I encourage you to get involved with the
+project and make Quasi a "quasi-real" CMS ;).
+
+ There is now an installer in the released zip/tgz bundled with QCodo. To install you can simply
+ unpack the compressed file to a directory available to the webserver and visit <location>/install.php.
+ This will optionally create a database for Quasi or you can create one before this and the installation
+ will install the quasi data (optionally with example data).
+  
+  NOTE that the QCodo that is bundled with Quasi contains bug fixes and modifications that may
+cause it not to run on stock QCodo installations.
+
+YOU SHOULD NOT UNPACK THIS INTO AN EXISTING QCODO INSTALLATION!! Any QCodo files and
+configuration will be overwritten if you do!!
+
+ There is one other (more geeky) way to install Quasi - manually:
+ 
+* 1. Unpack the tarball to the directory that you want to have as the root of Quasi (eg. /var/www/quasi/).
+* 2. Create the quasicms database - login to mysql and run this command:
+
+mysql> create database quasicms; grant all on quasicms.* to quasidbu identified by 'quasidbp';
+  
+  NOTE: You _should_ change the username and password in include/configuration.php and replace
+  them in the command above with values for your server!!
+
+* 3. Install the database:
+ 
+   You can use the quasi-example-data.sql for a functioning example site including the core modules:
+ 
+ you@yourserver$ mysql -u root -p < core/quasi-with-data.sql
+
+    Or, if you prefer you can install only the default database structure with no data and no modules:
+ 
+ you@yourserver$ mysql -u root -p < core/quasi.sql
+    
+ See the class comments, documentation and design notes for how to install modules (like Account).
+
+* 6.(Optional) Edit the Qcodo generator configuration (includes/_devtools/codegen_settings.xml) to point to
+core/relationships.txt like this:
+  
+  <relationshipsScript filepath="/path/to/your/quasiroot/core/relationships.txt" format="qcodo"/>
+
+and then run the Qcodo code generator (includes/_devtools/codegen.php)
+ 
+ 7. Et voila - Enjoy!
+
+
+ Note: you may need to give the webserver read rights to the new directories.
+ "chown -R www-data.www-data /var/www/quasi/ " works on Debian ... 
+
