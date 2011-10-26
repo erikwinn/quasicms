@@ -1,0 +1,2 @@
+            if ($this-><%= $strControlId %>) $this-><%= $strControlId %>->DateTime = $this-><%= $strObjectName %>-><%= $objColumn->PropertyName %>;
+            if ($this-><%= $strLabelId %>) $this-><%= $strLabelId %>->Text = $this-><%= $strObjectName %>-><%= $objColumn->PropertyName %>->__toString($this->str<%= $objColumn->PropertyName %>DateTimeFormat);

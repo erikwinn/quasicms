@@ -1,0 +1,255 @@
+<?php
+
+    //This file must always be included for any QuasiCMS files to run
+    define('QUASICMS',1);
+    define('QUASI_VERSION', '0.2');
+
+/************         Quasi CMS configuration                *************/
+
+/**
+  * Attempt to set the base directories - if this does not work for you
+  * comment out the autoconfiguration and uncomment and set the
+  * following for your setup:
+  *  define('__WWWROOT__', '/var/www/quasi');
+  *  define ('__QUASI_SUBDIRECTORY__', '');  
+  */
+    define('__WWWROOT__', rtrim( $_SERVER['DOCUMENT_ROOT'], '/') );
+    //if Quasi is in the docroot, just leave __QUASI_SUBDIRECTORY__ empty
+    if(file_exists(__WWWROOT__ . '/core/Quasi.class.php'))
+        define ('__QUASI_SUBDIRECTORY__', '');
+    else
+    {
+        //attempt to find the sub directory from the script executing:
+        $strScriptname = $_SERVER['SCRIPT_NAME'];
+        $pos = strrpos( $strScriptname, '/' );
+        //remove scriptname itself ..
+        $strSubdir = substr( $strScriptname, 0, $pos );
+        $arySubdirs = explode('/', trim($strSubdir) );
+        //remove empty first cell ..
+        array_shift($arySubdirs);
+        $strDirStack = '';
+        //check each subdirectory for Quasi class file ..
+        foreach($arySubdirs as $strPart)
+        {
+            $strDirStack .= '/' . $strPart;
+            if(file_exists(__WWWROOT__ . $strDirStack . '/core/Quasi.class.php'))
+            {
+                define ('__QUASI_SUBDIRECTORY__', $strDirStack);
+                break;
+            }
+        }
+        //Quasi installation will catch this ..
+        if(!defined('__QUASI_SUBDIRECTORY__'))
+            throw new Exception('Base directory autoconfiguration failed. Please set manually.');
+    }
+    
+    /**
+    *                        ----------------------- Quasi CMS directories -------------------------------
+    *
+    *  The Quasi directory structure is designed to support separation between core, contributed
+    * and local code to make isolation and independant updates clean. The core/ directory is
+    * maintained in the main Quasi repository and may be checked out and updated by itself,
+    * the contrib directory is maintained as the Quasi contributed code repository and local is
+    * delegated to local custom code for a site. Each of these contains the same substructure:
+    *  - assets: images, css and javascript files
+    *  - classes: class files and other files
+    *  - modules: module class files - this is where the module loader looks for registered modules
+    *  - templates: template files used by classes in the other directories. These represent the final
+    *           stage of the View and may be altered
+    *  - orm: ORM object classes for the data model. Base classes for these may be placed
+    *           under orm/static for non-generated or orm/generated for QCodo generated classes.
+    *           Classes under orm/ will be autoloaded by Quasi.
+    *       Note: you must configure QCodo code generation to use these directories - or you can
+    *           also use the standard QCodo default directories under qcodoroot/includes
+    *  The autoloader also makes it possible to have a local version of a class that overrides the
+    * core version - local classes will be loaded first, then contrib, then core. The same applies
+    * for Javascripts and in CSS loading cascades in the reverse direction.
+    */
+    
+    ///Base of the Quasi tree - Note that this _includes_ the subdirectory for the absolute path
+    /// ASSETS of any kind are relative and must build off ONLY __QUASI_SUBDIRECTORY__
+    /// - see below.
+    define('__QUASI_ROOT__', __WWWROOT__ . __QUASI_SUBDIRECTORY__ );
+    ///Quasi core absolute directories
+    define('__QUASI_CORE__', __QUASI_ROOT__ . '/core');
+    define('__QUASI_CORE_CLASSES__', __QUASI_CORE__ . '/classes');
+    define('__QUASI_CORE_MODULES__', __QUASI_CORE__ . '/modules');
+    define('__QUASI_CORE_ORM__', __QUASI_CORE__ . '/orm');
+    define('__QUASI_CORE_METAORM__', __QUASI_CORE__ . '/meta_controls');
+    define('__QUASI_CORE_TEMPLATES__', __QUASI_CORE__ . '/templates');
+    ///core relative directories
+    define('__QUASI_CORE_ASSETS__', __QUASI_SUBDIRECTORY__ . '/core/assets');
+    define('__QUASI_CORE_IMAGES__', __QUASI_CORE_ASSETS__ . '/images');
+    define('__QUASI_CORE_JS__', __QUASI_CORE_ASSETS__ . '/js');
+    define('__QUASI_CORE_CSS__', __QUASI_CORE_ASSETS__ . '/css');
+    ///Contributed and non-core code directories
+    define('__QUASI_CONTRIB__', __QUASI_ROOT__ . '/contrib');
+    define('__QUASI_CONTRIB_CLASSES__', __QUASI_CONTRIB__ . '/classes');
+    define('__QUASI_CONTRIB_MODULES__', __QUASI_CONTRIB__ . '/modules');
+    define('__QUASI_CONTRIB_ORM__', __QUASI_CONTRIB__ . '/orm');
+    define('__QUASI_CONTRIB_METAORM__', __QUASI_CONTRIB__ . '/meta_controls');
+    define('__QUASI_CONTRIB_TEMPLATES__', __QUASI_CONTRIB__ . '/templates');
+    ///contrib relative directories
+    define('__QUASI_CONTRIB_ASSETS__', __QUASI_SUBDIRECTORY__ . '/contrib/assets');
+    define('__QUASI_CONTRIB_IMAGES__', __QUASI_CONTRIB_ASSETS__ . '/images');
+    define('__QUASI_CONTRIB_JS__', __QUASI_CONTRIB_ASSETS__ . '/js');
+    define('__QUASI_CONTRIB_CSS__', __QUASI_CONTRIB_ASSETS__ . '/css');
+    ///Local code directories
+    define('__QUASI_LOCAL__', __QUASI_ROOT__ . '/local');
+    define('__QUASI_LOCAL_CLASSES__', __QUASI_LOCAL__ . '/classes');
+    define('__QUASI_LOCAL_MODULES__', __QUASI_LOCAL__ . '/modules');
+    define('__QUASI_LOCAL_ORM__', __QUASI_LOCAL__ . '/orm');
+    define('__QUASI_LOCAL_METAORM__', __QUASI_LOCAL__ . '/meta_controls');
+    define('__QUASI_LOCAL_TEMPLATES__', __QUASI_LOCAL__ . '/templates');
+    ///local relative directories
+    define('__QUASI_LOCAL_ASSETS__', __QUASI_SUBDIRECTORY__ . '/local/assets');
+    define('__QUASI_LOCAL_IMAGES__', __QUASI_LOCAL_ASSETS__ . '/images');
+    define('__QUASI_LOCAL_JS__', __QUASI_LOCAL_ASSETS__ . '/js');
+    define('__QUASI_LOCAL_CSS__', __QUASI_LOCAL_ASSETS__ . '/css');
+
+    /**
+    * Base of the QCodo tree - this is required to run Quasi CMS - it is the one thing
+    * you may need to configure. If the Quasi CMS and QCodo directories are together
+    * (ie. Quasi root == QCodo's wwwroot), you can simply uncomment the second line,
+    *  otherwise you must specify the location of QCodo's root (the directory called "wwwroot" 
+    * in the distribution) as shown in the first line. 
+    */
+//    define('__QCODO_ROOT__', __WWWROOT__ . '/qcodo' );
+    define('__QCODO_ROOT__', __WWWROOT__ . __QUASI_SUBDIRECTORY__ );
+
+    /**
+    * Extend the PHP include path - this makes it unnecessary to modify php.ini, you can
+    * also add extra paths to search here. This also ensures that we load our files first in
+    * case of conflicts. The final include is for QCodo for if it is bundled with Quasi.
+    */
+    set_include_path( __QUASI_CORE_CLASSES__ . PATH_SEPARATOR
+                               . __QUASI_CORE_MODULES__ . PATH_SEPARATOR
+                               . __QUASI_CONTRIB_CLASSES__ . PATH_SEPARATOR
+                               . __QUASI_CONTRIB_MODULES__ . PATH_SEPARATOR
+                               . __QUASI_LOCAL_CLASSES__ . PATH_SEPARATOR
+                               . __QUASI_LOCAL_MODULES__ . PATH_SEPARATOR
+                               //this is for QCodo if bundled .. 
+                               . __QCODO_ROOT__ . PATH_SEPARATOR
+                               . get_include_path()
+                                );
+    /**
+    * Module configurations - these are local values for modules.
+    * TODO: create a scheme for storing these in the database - this is a quick fix
+    * due to current time constraints, ideally we should probably move these to the
+    * database (encrypted). First we need an interface for entering them, then store in db ..
+    *
+    */
+    ///USPS shipping ..change me for use!
+    define('USPS_USERID', 'get from USPS' );
+    ///Endicia Label service .. Note: the test values can also be set to the production values
+    /// and test mode will be active against the production server.    
+    define('ENDICIA_TESTDOMAIN', 'www.envmgr.com' );
+    define('ENDICIA_TESTREQUESTER_ID', 'get from Endicia' );
+    define('ENDICIA_TESTREQUEST_ID', 'get from Endicia' );
+    define('ENDICIA_TESTACCOUNT_ID', 'get from Endicia' );
+    define('ENDICIA_TESTPASSWORD', 'get from Endicia' );
+    
+    define('ENDICIA_DOMAIN', 'labelserver.endicia.com' );
+    define('ENDICIA_REQUESTER_ID', 'get from Endicia' );
+    define('ENDICIA_REQUEST_ID', 'get from Endicia' );
+    define('ENDICIA_ACCOUNT_ID', 'get from Endicia' );
+    define('ENDICIA_PASSWORD', 'get from Endicia' );
+
+    define('ENDICIA_RECREDIT_AMOUNT', 100 );
+    define('ENDICIA_ACCOUNT_MIN', 100 );
+    define('ENDICIA_AUTO_RECREDIT', false );
+    ///default mail piece type/shape
+    define('ENDICIA_MAILPIECE_SHAPE', 'FlatRateEnvelope' );
+    define('ENDICIA_CGI_URL', '/LabelService/EwsLabelService.asmx/' );
+    
+    ///FedEx shipping ..
+    define('FEDEX_TESTKEY', 'developer key' );
+    define('FEDEX_TESTPASSWORD', 'developer password' );    
+    define('FEDEX_TESTACCOUNT_NUMBER', 'developer number' );
+    define('FEDEX_TESTMETER_NUMBER', 'developer number' );
+    
+    define('FEDEX_KEY', 'get from FedEx' );
+    define('FEDEX_PASSWORD', 'get from FedEx' );
+    define('FEDEX_ACCOUNT_NUMBER', 'get from FedEx' );
+    define('FEDEX_METER_NUMBER', 'get from FedEx' );
+    
+    /**
+    * Payment methods
+    */
+
+    
+/*    /// PayPal EWP - unimplemented (requires FORM POST ... use IFRAME ??)
+    define("PAYPAL_DEV_CENTRAL", "developer");
+    define("PAYPAL_ENV", "sandbox");
+    ///Note: these are testing values by default, from the PP SDK ..
+    define("PAYPAL_EWP_USERNAME", "sdk-three_api1.sdk.com");
+    define("PAYPAL_EWP_PASSWORD", "QFZCWN5HZM8VBG7Q");
+    define("PAYPAL_SIGNATURE", "A.d9eRKfd1yVkRrtmMfCFLTqa6M9AyodL0SJkhYztxUi8W9pCXF6.4NI");
+    define("PAYPAL_EMAIL_ADDRESS", "sdk-seller@sdk.com");
+    define("PAYPAL_IDENTITY_TOKEN", "G5JgcRdmlYUwnHcYSEXI2rFuQ5yv-Ei19fMFWn30aDkZAoKt_7LTuufYXUa");
+    define("PAYPAL_EWP_CERT_PATH", "cert/sdk-ewp-cert.pem");
+    define("PAYPAL_EWP_PRIVATE_KEY_PATH", "cert/sdk-ewp-key.pem");
+    define("PAYPAL_EWP_PRIVATE_KEY_PWD", "password");
+    define("PAYPAL_CERT_ID", "KJAERUGBLVF6Y");
+    define("PAYPAL_CERT_PATH", "cert/sandbox-cert.pem");
+    define("PAYPAL_BUTTON_IMAGE_URL", "https://www.paypal.com/en_US/i/btn/x-click-but23.gif");
+    define("PAYPAL_IPN_LOG", "paypal-ipn.log");
+    */
+    
+    /// PayPal Express / NVP   
+    define('PAYPAL_REDIRECT_TESTURL', 'https://www.sandbox.paypal.com');
+    define('PAYPAL_REDIRECT_URL', 'https://www.paypal.com');
+    define('PAYPAL_NVP_TESTURL', 'https://api-3t.sandbox.paypal.com');
+    define('PAYPAL_NVP_URL', 'https://api-3t.paypal.com');
+    ///Note: these are testing values by default, from the PayPal SDK, adjust for real account ..
+    define('PAYPAL_NVP_USERNAME', 'sdk-three_api1.sdk.com');
+    define('PAYPAL_NVP_PASSWORD', 'QFZCWN5HZM8VBG7Q');
+    define('PAYPAL_NVP_SIGNATURE', 'A.d9eRKfd1yVkRrtmMfCFLTqa6M9AyodL0SJkhYztxUi8W9pCXF6.4NI');
+
+    ///Authorize.net AIM
+    define('AUTHORIZENET_AIM_USERNAME','get from authorize.net');
+    define('AUTHORIZENET_AIM_TRANSACTIONKEY','get from authorize.net');
+    define('AUTHORIZENET_AIM_URL','secure.authorize.net');
+    define('AUTHORIZENET_AIM_TESTUSERNAME','get from authorize.net');
+    define('AUTHORIZENET_AIM_TESTTRANSACTIONKEY','get from authorize.net');
+    define('AUTHORIZENET_AIM_TESTURL','test.authorize.net');
+    
+    /**
+    * Webstore settings - Note, this might be better as Account #1 in the database ..
+    */
+
+    define('STORE_EMAIL_ADDRESS','');
+    define('STORE_OWNER','');
+    define('STORE_ADDRESS1', '');
+    define('STORE_ADDRESS2', '');
+    define('STORE_CITY', '');
+    define('STORE_COUNTY','');
+    define('STORE_STATE','');
+    define('STORE_POSTAL_CODE', '');
+    define('STORE_COUNTRY','');
+    define('STORE_PHONE','');
+    define('STORE_FAX','');
+    define('STORE_NAME','My Store');
+
+    /// Default description sent to payment providers ..
+    define('DEFAULT_ORDER_DESCRIPTION', 'storename product');
+
+    ///Defaults for providers - these will be selected by default at checkout.
+    /// Note: you can disable defaults by merely leaving these empty.
+    define('DEFAULT_PAYMENT_PROVIDER','Authorize.net');
+    define('DEFAULT_PAYMENT_SERVICE','Credit Card');
+    define('DEFAULT_SHIPPING_CARRIER','USPS');
+    define('DEFAULT_SHIPPING_SERVICE','PRIORITY');
+
+    /**
+    * Which page to redirect to after login
+    */
+    define('LOGIN_REDIRECT', '/index.php/AccountHome');
+    
+    /**
+    * Miscelleneous defaults
+    */
+    define('MAX_PRODUCT_QUANTITY', 1000);
+    define('DEFAULT_SHIPPING_RATE', 2);
+    
+?>

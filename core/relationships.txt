@@ -1,0 +1,83 @@
+  authorize_net_transaction.order_id => order.id
+
+  account.type_id => account_type.id
+  account.status_id => account_status_type.id
+
+  address.zone_id => zone_type.id
+  address.country_id => country_type.id
+  address.type_id => address_type.id
+
+  product.status_id => product_status_type.id
+  product.type_id => product_type.id
+  product.public_permissions_id => permission_type.id
+  product.user_permissions_id => permission_type.id
+  product.group_permissions_id => permission_type.id
+
+  product_image.size_type => image_size_type.id
+
+  order.shipping_zone_id => zone_type.id
+  order.shipping_country_id => country_type.id
+  order.billing_zone_id => zone_type.id
+  order.billing_country_id => country_type.id
+  order.status_id => order_status_type.id
+  order.type_id => order_type.id
+  order.shipping_method_id => shipping_method.id
+  order.payment_method_id => payment_method.id
+  
+  order_change.type_id => order_change_type.id
+
+  order_status_history.status_id => order_status_type.id
+
+  order_item.status_id => order_item_status_type.id
+  
+  payment_method.payment_type_id => payment_type.id
+
+  tracking_number.order_id => order.id
+  
+  paypal_transaction.payment_method_id => payment_method.id
+
+  content_block.parent_content_block_id => content_block.id
+  content_block.location_id => block_location_type.id
+  
+  content_category.parent_content_category_id => content_category.id
+
+  content_category.public_permissions_id => permission_type.id
+  content_category.user_permissions_id => permission_type.id
+  content_category.group_permissions_id => permission_type.id
+  
+  product_category.parent_product_category_id => product_category.id
+  product_category.public_permissions_id => permission_type.id
+  product_category.user_permissions_id => permission_type.id
+  product_category.group_permissions_id => permission_type.id
+
+  content_item.creator_id => person.id
+  content_item.type_id => content_type.id
+  content_item.status_id => content_status_type.id
+  content_item.public_permissions_id => permission_type.id
+  content_item.user_permissions_id => permission_type.id
+  content_item.group_permissions_id => permission_type.id
+
+  module.public_permissions_id => permission_type.id
+  module.user_permissions_id => permission_type.id
+  module.group_permissions_id => permission_type.id
+  module.content_block_id => content_block.id
+
+  page.doc_type_id => page_doc_type.id
+  page.type_id => page_type.id
+  page.status_id => page_status_type.id
+  page.public_permissions_id => permission_type.id
+  page.user_permissions_id => permission_type.id
+  page.group_permissions_id => permission_type.id
+
+  menu_item.type_id => menu_item_type.id
+  menu_item.status_id => menu_status_type.id
+  menu_item.public_permissions_id => permission_type.id
+  menu_item.user_permissions_id => permission_type.id
+  menu_item.group_permissions_id => permission_type.id
+
+  menu.type_id => menu_type.id
+  menu.status_id => menu_status_type.id
+  menu.public_permissions_id => permission_type.id
+  menu.user_permissions_id => permission_type.id
+  menu.group_permissions_id => permission_type.id
+

@@ -1,0 +1,22 @@
+2008-07-26
+
+    Quasi CMS is released under the terms of the GPL version 2.0. This covers the code
+found in under the directories admin/, core/, and doc/ in the same directory as this file.
+This license applies to any code that comprises the CMS itself which contains the
+GPL notice at the top of the file.
+
+    You may freely distribute Quasi CMS and you may distribute modifications of Quasi
+CMS under the terms of the GPL. This means that you may not change the license on this
+or derivative works and that you must provide the source code of the application if it is
+requested of you. Please see the full text of the GPL for a complete description of the
+terms of the license.
+
+    NOTE: THIS LICENSE DOES NOT INCLUDE THE QCODO FRAMEWORK. The
+Qcodo framework consists of the software in the directories assets/, includes/ and _devtools/
+found in this directory. The QCodo framework is distributed under the terms of the
+MIT Open Source licence - please see the file _LICENSE.txt under the includes/ directory
+for the precise terms or visit http://www.qcodo.com for more information.
+
+    You should have received a copy of the GPL with this software - it is normally
+located under the doc/ directory. If you did not receive a copy of the license you can
+find one at http://www.gnu.org/copyleft/gpl.txt

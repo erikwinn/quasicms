@@ -1,0 +1,1421 @@
+/* General Quasi styles.
+ * $Id: quasi.css 520 2009-04-01 16:09:09Z erikwinn $
+ */
+
+/*
+
+Color scheme:
+
+  Lime Green:  #9bbd17;
+  Light Green: #b9d15b;
+  Teal:        #19655a;
+
+  Dark Gray:   #383933;
+  Medium Gray: #bfbfb0;
+Original  Light Gray:  #e7e7e0;
+  Light Gray:  #c7c7c0;
+
+*/
+
+body {
+   /* background-color: #F4F5F3; */
+   background-color: #383933;
+   font-size: 1em;
+   font-family: Arial, Helvetica, Verdana, sans-serif;
+}
+
+/* IE box model fix class - take 2 aspirin and apply to problem areas */
+* html .visualIEFloatFix { height: 0.01%; }
+/* div { height: 0.01%; } */
+
+hr {
+    border: 0;
+/*     border-top: 2px solid #FF6633; */
+    border-top: 2px solid #bfbfb0;
+    border-style: dashed;
+}
+
+/* Use to expand container divs vertically: */
+div.spacer {
+    clear: both;
+    display: block;
+    width: 100%;
+    height: 4px;
+}
+
+p { margin: 5px; }
+
+.warning {
+    color: red;
+}
+.nopadding { padding: 0px; }
+.nomargin { margin: 0px; }
+
+.flushleft  { margin-left: 0; }
+.flushright { margin-right: 0; float: right; }
+
+/* div.heading { */
+.heading {
+    font-weight: bold;
+    width: 50%;
+    margin-top: 1em;
+    margin-left: 2em;
+ }
+
+a, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: #19655a;
+}
+
+a:active {
+  color: white;
+  background-color: #9bbd17;
+}
+table {
+    width: 90%;
+}
+.currentlink{
+  color: white;
+  background-color: #9bbd17;
+}
+/*  example for menu background images
+a.home { background: url(/assets/images/nav_Home.jpg) no-repeat; }
+a.about { background: url(/assets/images/nav_About.jpg) no-repeat; }
+*/
+
+.ProductThumb{
+    position:relative;
+    float: left;
+    margin: 5px;
+}
+.ProductImagePopup{
+    text-align: center;
+}
+
+.ProductImagePopup img{
+    margin: 3px;
+}
+
+div.ModuleInner {
+    position: relative;
+    display: block;
+}
+
+div.CenterPanelContentBlock {
+    clear: both;
+}
+    
+.button {
+    cursor: pointer;
+}
+input.button, span.button {
+    float: right;
+    color: #16675A;
+    background-color: white;
+    border: 2px solid #16675A;
+    font-family: Arial, Verdana, sans-serif;
+    font-weight: bold;
+    margin-right: 1%;
+}
+
+input.textbox {
+    border-left: 2px solid #383933;
+    border-top: 2px solid #383933;
+    border-right: 1px solid #ddddd5;
+    border-bottom: 1px solid #ddddd5;
+    color: #383933;
+    margin-right: 0.5em;
+    padding: 0.25em;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+
+div.renderWithName {
+    padding: 4px 0 4px 0;
+    overflow: auto;
+    height: 100%;
+    clear:both;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.renderWithName input,
+div.renderWithName .listbox {
+    width: 10em;
+}
+
+div.renderWithName div.left {
+    position: relative;
+    float: left;
+}
+
+div.renderWithName div.right {
+    position: relative;
+    float: right;
+}
+
+div.renderWithName div.right span.error {
+    position: relative;
+    display: block;
+    float: left;
+    clear: both;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
+    color: #600;
+}
+
+/* Collapsable panel styling */
+div.twisty {
+    color: #16675A;
+    background-color: white;
+    border: 1px solid #16675A;
+    font-weight: bold;
+    font-size: 0.8em;
+    padding: 3px;
+}
+
+div.twisty div.CollapsableHeader {
+    width: 20%;
+    float: left;
+}
+
+/* QDataGrid */
+
+table.datagrid {
+    font-size: 0.8em;
+    width: 98%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: .5em;
+}
+table.datagrid caption, table.datagrid tfoot {
+    padding-bottom: 4px;
+    overflow: auto;
+}
+table.datagrid span.left {
+    float: left;
+    display: block;
+}
+table.datagrid span.right {
+    float: right;
+    display: block;
+}
+table.datagrid tr {
+    margin-top: 2px;
+    background-color: #fff;
+}
+table.datagrid tr.alternate {
+    background-color: #ddddd5;
+}
+table.datagrid th {
+    background-color: white;
+    color: #383933;
+    padding: 3px 5px 3px 5px;
+    text-align: left;
+}
+table.datagrid th a {
+    /* color: #16675a; */
+    text-decoration: none;
+}
+table.datagrid th a:hover {
+    text-decoration: underline;
+}
+table.datagrid td {
+    padding: 3px;
+    border-right: 1px solid white;
+}
+table.datagrid td a { }
+table.datagrid td a:hover {
+    text-decoration: none;
+}
+table.datagrid tfoot {
+    border-top: 1px solid #16675a;
+}
+
+/* QPaginator */
+span.paginator {
+    margin: 0;
+    padding: 0;
+}
+span.paginator span {
+    list-style-type:none; display: inline;
+    padding: 0;
+    margin: 0;
+}
+span.paginator span.page a {
+    text-decoration: none;
+    color: #000000;
+    padding: 0 3px 0 3px;
+    margin: 0 2px 0 2px;
+}
+span.paginator span.page a:hover {
+    background-color: #ccf;
+}
+span.paginator span.arrow {
+    font-weight: bold;
+    color: #ccc; margin: 0;
+    padding: 0 3px 0 3px;
+}
+span.paginator span.arrow a {
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+}
+span.paginator span.selected {
+    font-weight: bold;
+    background-color: #ccf;
+    padding: 0 3px 0 3px;
+    margin: 0 2px 0 2px;
+    border: 1px;
+    border-style: solid;
+}
+span.paginator span.break {
+color: #666;
+margin: 0 5px 0 5px;
+}
+span.paginator span.ellipsis {
+color: #666;
+}
+
+div.AddressView span {
+    float:left;
+    display:block;
+    clear: both;
+    margin: 1%;
+}
+
+input.ProductQtyBox{
+    margin-left: 10px;
+    width: 2em;
+}
+div.CartItemView{
+    margin-bottom: 5px;
+}
+div.ProductItemList{
+    clear: both;
+    margin-bottom: 10px;
+/*     border: 2px solid gray; */
+}
+
+div.ProductItemList table,
+div.ProductItemList thead{
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ProductDescLong{
+    display: block;
+    margin: 4px;
+}
+/* div.ProductItemList tr.alternate{ */
+tr.alternate{
+    background-color:#ddddd5;
+/*     background:gray; */
+}
+
+#CenterPanel {
+    display: block;
+    position: relative;
+    float: right;
+    width: 75%;
+    padding: 0;
+    background-color: white;
+}
+
+#CenterPanelAboutUs, #CenterPanelHomeNews, div#ToolBarBody {
+    width: 98%;
+    float:right;
+}
+
+/* content Block title */
+#CenterPanel div.ContentBlockTitle {
+    display: block;
+    position: relative;
+    float: right;
+    width: 94%;
+    color: #fff;
+    background-color: #9bbd17;
+    font-size: 1.1em;
+    font-weight: bold;
+    font-family: sans-serif;
+    padding: 5px 1% 5px 1%;
+    margin: 1% 2% 0 2%;
+}
+
+/* content item body */
+#CenterPanel div.ContentItemInner {
+    display: block;
+    position: relative;
+    float: right;
+    width: 96%;
+    font-size: 0.9em;
+    font-family: 'Georgia', 'Times New Roman', 'Times';
+    margin-top: 0;
+    padding: 2%;
+    background-color: white;
+}
+#CenterPanel div.ContentBlockDescription,
+#CenterPanel div.ContentItemDescription {
+    display: block;
+    position: relative;
+    float: right;
+    width: 100%;
+    font-family: 'Georgia', 'Times New Roman', 'Times';
+    padding-left: 2%;
+    color: #5A0D03;
+    font-size: 0.8em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-style: italic;
+/*     text-align: center; */
+}
+
+#CenterPanel div.ContentItemTitle{
+    font-family: Georgia;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #19655a;
+}
+#CenterPanelHomeNews div.ContentItemInner{
+    border-bottom: 1px solid #ddddd5;
+}
+
+#CenterPanel div.renderWithName{
+    width: 40%;
+    float: left;
+    margin-left: 1em;
+    text-align: left;
+}
+
+#CenterPanelAccountManagerBlock div.renderWithName {
+    display: block;
+    clear:both;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    width: 60%;
+    height: 100%;
+    margin-left: 10%;
+/*     margin-right: auto; */
+    margin-bottom: 1%;
+    margin-top: 1%;
+    border-bottom: 1px solid #ddddd5;
+/*     border-top: 1px solid #ddddd5; */
+}
+#CenterPanelAccountManagerBlock div.renderWithName input{
+    width: 12em;
+}
+
+#CenterPanelAccountManagerBlock div.renderWithName .listbox {
+    width: 10em;
+}
+
+#CenterPanelAccountManagerBlock div.renderWithName div.left {
+    position: relative;
+    float: left;
+    margin-top: 2px;
+}
+
+#CenterPanelAccountManagerBlock div.renderWithName div.right {
+    position: relative;
+    float: right;
+    margin-top: 3px;
+}
+
+#CenterPanelAccountManagerBlock div.renderWithName div.right span.error {
+    position: relative;
+    display: block;
+    float: left;
+    clear: both;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
+    color: #600;
+}
+
+div#CartViewInner div.refresh,
+div#CartViewInner div.save,
+div#CartViewInner div.checkout{
+    float: right;
+    width:6em;
+}
+/*div#CartViewInner div.formActions{
+    float: right;
+    height: 1em;
+}*/
+/******************* Check out module styles *******  */
+ div.CheckoutHeading {
+    display: block;
+    position: relative;
+    float: right;
+    width: 94%;
+    color: #fff;
+    background-color: #9bbd17;
+    background: #9bbd17 url('/core/assets/images/default_shopping_cart_icon.gif') no-repeat  left;
+    background-position: 5px 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    font-family: sans-serif;
+    padding: 5px 1% 5px 1%;
+    margin: 1% 2% 0 2%;
+}
+ 
+ div#CheckOutModule {
+/*     width: 95%;     */
+ }
+  
+div#CheckOutModule .button{
+    width: 6.3em;
+    float: right;
+    margin: 1%;        
+ }
+ div#CheckOutModule div.heading {
+    font-weight: bold;
+    width: 50%;
+    margin-top: 1em;
+    margin-left: 2em;
+ }
+
+/*div#CheckOutReviewModule .button{
+    width: 6.3em;
+    float: left;
+    margin: 1%;        
+ }*/
+ 
+div.CheckOutItemList table {
+    width: 100%;
+}
+div.CheckOutItemList table td span {
+    margin-left: 15%;
+}
+div#ShippingAddressView, div.ShippingAddressReview{
+    width: 48%;
+    float: left;
+}
+div#BillingAddressView, div.BillingAddressReview{
+    width: 48%;
+    float: left;
+}
+
+/* div#ShippingAddressView div.AddressView, div#BillingAddressView div.AddressView{ */
+div#CheckOutReviewModule div.AddressView{
+    width: 60%;
+    float: left;
+}
+div.AddressView > span{
+margin-left: .8em;
+}
+
+
+div#AddressSelectionModuleInner{
+    float: left;
+    width: 60%;
+    margin: 2%;
+}
+
+div#AddressSelectionModuleInner div.renderWithName{
+    width: 90%;
+}
+div#AddressSelectionModuleInner table{
+    width: 98%;
+}
+
+div#AddressSelectionModuleInner select{
+    width: 10em;
+}
+
+div#AddressSelectionModuleInner input{
+    width: 13em;
+}
+
+div.PaymentMethodView{
+    width: 95%;
+    float: left;
+    margin: 1%;
+    border-top: 1px solid gray;
+    padding: 2%;
+}
+div.PaymentMethodView span{
+    float: left;
+    margin: .5% 2% .5% 2%;
+}
+div.PaymentMethodView img{
+    float: left;
+    margin-left: 3%;
+}
+table.CCInput{
+    width: 51%;
+    float: left;
+    margin-left: 2em;
+    text-align: left;
+}
+
+table.CCInput .left{
+    width: 42%;
+}
+table.CCInput .right{
+    width: 48%;
+}
+
+div#PaymentModule table.CCInput td div.renderWithName{
+    width: 100%;
+    float: left;
+    margin-left: 2%;
+    text-align: left;
+}
+div#PaymentModule .right{
+    float: left;
+    margin-left: 1em;
+}
+table.CCInput input{
+    float: left;
+    width: 95%;
+}
+div#PaymentModule table.CCInput input.CCVNumber{
+    float: left;
+    width: 3em;
+}
+table.CCInput select{
+    float: left;
+    width:4em;
+    margin:1%;
+}
+
+div.PaymentMethodReview .button,
+div.ShippingMethodReview .button,
+div.BillingAddressReview .button,
+div.ShippingAddressReview .button{
+    float: right;
+    margin-top: 1em;
+}
+
+div.PaymentMethodReview, div.ShippingMethodReview{
+    width: 45%;
+    float: left;
+    margin-left: 1%;
+    border-left: 1px solid gray;
+    padding-left: 1%;
+}
+
+div.PrintAction{
+    float: right;
+}
+
+div#ProgressBar {
+    margin-top: 1%;
+}
+div#ProgressBar span.heading{
+    font-size: .8em;
+    font-weight: bold;
+    float: left;
+    margin: 5px;
+    margin-top: 10px;
+}
+
+div#ProgressBar span.label{
+    font-size: .8em;
+    float: left;
+    margin: 5px;
+    margin-top: 7px;
+/*     margin-left: 5%; */
+/*     margin-left: 30px; */
+/*     margin-left: 1.4em; */
+}
+
+div#ProgressBar span + span{
+    position: relative;
+/*     left: 10px; */
+    left: 2%;
+}
+div#ProgressBar span + span + span{
+    position: relative;
+/*     left: 30px; */
+    left: 6%;
+}
+div#ProgressBar span + span + span + span{
+    position: relative;
+/*     left: 50px; */
+    left: 10%;
+}
+div#ProgressBar span + span + span + span + span{
+    position: relative;
+/*     left: 60px; */
+    left: 13%;
+}
+div#ProgressBar span + span + span + span + span + span{
+    position: relative;
+/*     left: 60px; */
+    left: 14%;
+}
+
+span.ProgressBarShoppingCart{
+    display: block;
+    height: 40px;
+    background: url('/core/assets/images/progress_shoppingcart.gif') no-repeat bottom right;
+}
+span.ProgressBarShipping{
+    display: block;
+    height: 40px;
+    background: url('/core/assets/images/progress_shipping.gif') no-repeat bottom right;
+}
+span.ProgressBarPayment{
+    display: block;
+    height: 40px;
+    background: url('/core/assets/images/progress_payment.gif') no-repeat bottom right;
+}
+span.ProgressBarReview{
+    display: block;
+    height: 40px;
+    background: url('/core/assets/images/progress_revieworder.gif') no-repeat bottom right;
+}
+span.ProgressBarReceipt{
+    display: block;
+    height: 40px;
+    background: url('/core/assets/images/progress_receipt.gif') no-repeat bottom right;
+}
+/******* Shipping Module styles  **** */
+ div#ShippingModule .ShippingProviderTitle {
+    font-size: .9em;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-left: 2em;
+ }
+ div.ShippingMethodView {
+    clear: both;
+    border-bottom: 1px solid #ddddd5;
+    margin: 1.5%;
+ }
+ div.ShippingMethodView .MethodPrice {
+    float: right;
+    margin-right: 1%;
+    width: 15%;
+    text-align: left;
+ }
+ div.ShippingMethodView .MethodTime {
+    float: left;
+    margin-left: 2%;
+ }
+ div.ShippingMethodView .MethodDescription {
+    float: left;
+    margin-left: 2%;
+    width: 50%;
+ }
+ div.ShippingMethodView .MethodRadioButton {
+    float: left;
+    margin-left: 2%;
+ }
+
+div#CartViewInner {
+    width: 99%;
+}
+div#CartModule{
+    height: 0.01%;
+}
+div#CartModule .button{
+    width: 6.3em;
+    font-size: 0.6em;
+    margin: 6px;
+    padding:0;
+}
+div#CartBoxList a{
+    font-weight: normal;
+    font-size: 0.8em;
+    margin-left: 8px;
+}
+div#CartBoxInner{
+    background-color: white;
+    color: #16675A;
+}
+div#CartBoxHeader{
+    background-color: #19655a;
+    color: white;
+    cursor: pointer;
+    padding: 3px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+}
+div#PageContainer {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background-color: #ddddd5;
+}
+
+div#formActions div#save, div#formActions div#refresh {
+/*     width: 5%; */
+    float: left;
+    margin-right: auto;
+    margin-left: 3px;
+}
+
+div#formActions div#cancel {
+/*     width: 5%; */
+    margin-right: auto;
+    margin-left: 30%;
+}
+
+div#formActions div#reset, div#formActions div#back {
+/*     width: 5%; */
+    float: right;
+    margin-left: auto;
+    margin-right: 3px;
+}
+
+div#PageHeader {
+    background: #19655a url('/local/assets/images/header_logo.jpg') no-repeat scroll top left;
+    height: 126px;
+    position: relative;
+    display: block;
+    width: 100%;
+    border-bottom: 4px solid #19655a;
+}
+
+/*div#SiteLogoText{
+    position: relative;
+    float: left;
+    width: 40%;
+    margin-left: 250px;
+    margin-top: 50px;
+    font-style: italic;
+    font-size:1.5em;
+    color: black;
+}*/
+
+div#LeftPanel {
+  position: relative;
+  display: block;
+  float: left;
+  width: 22%;
+  color: black;
+  padding: 0;
+  height: 100%;
+}
+
+
+div#RightPanel {
+    display: block;
+    position: relative;
+    float: right;
+    width: 12%;
+    margin-top: 2px;
+    border-width: 1px solid gray;
+    border-style: double;
+}
+
+div#RightPanel div.ContentBlockTitle {
+    display: block;
+    position: relative;
+    float: right;
+    width: 99%;
+    background-color: #E92701;
+    font-size: 1.3em;
+    font-weight: bold;
+    font-family: sans-serif;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+div#PageFooter {
+    height: 37px;
+    position: relative;
+    float: left;
+    display: block;
+    width: 99%;
+    background-color: #bfbfb0;
+    margin-bottom: 0;
+    text-align: right;
+    font-size: .8em;
+    font-weight: bold;
+    line-height: 22px;
+    padding: 3px;
+    margin-top: 1%;
+}
+
+/*******************   Menu styling         **********************/
+div#MainMenu {
+    float:left;
+    clear: both;
+    margin-bottom:4px;
+    border-bottom: 4px solid #19655a;
+    width: 100%;
+    font-size: 1.33em;
+}
+
+#MainMenu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-position: inside;
+}
+
+#MainMenu li.TabMenuItem {
+    float: left;
+    height: 1.5em;
+    width: 24%;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: .5em 0 .5em .5%;
+    cursor: pointer;
+    position: relative;
+    border-left: 1px solid #bfbfb0;
+    background-color: white;
+    color: #16675A; 
+}
+#MainMenu li.TabMenuItem:hover {
+    background-color: #ddddd5;
+}
+#MainMenu a {
+    display: block;
+    font-weight: bold;
+    font-family: Arial, Verdana, Helvetica,  sans-serif;
+} 
+#MainMenu a:link {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+#MainMenu a:active {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: #9bbd17;
+}
+#MainMenu a:visited { }
+#MainMenu a:hover { }
+
+.SideBar {
+    clear: both;
+    background-color: white;
+}
+
+div.LeftPanelContentBlock {
+    float:left;
+    position: relative;
+    display: block;
+    clear: both;
+    width: 90%;
+    margin-left: 10px;
+    margin-top: 10px;
+    color: black;
+    background-color: #ddddd5;
+}
+
+div.LeftPanelContentBlock div.MenuBlockInner{
+    width: 100%;
+    display: block;
+}
+div.LeftPanelContentBlock div.MenuTitle{
+    background-color: #19655a;
+    width: 98%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    height: 1.2em;
+    padding:1%;
+}
+div.LeftPanelContentBlock ul{
+    float: left;
+    position: relative;
+    background-color: white;
+    color: white;
+    height: 100%;
+    margin:0;
+    padding-left: 0;
+    list-style: none;
+    width: 100%;
+}
+
+div.LeftPanelContentBlock li {
+    position: relative;
+    display: block;   
+    float: left;
+    height: 1em;
+    font-weight: bold;
+/*     font-size: 0.7em; */
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    padding: 4px;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+    width: 90%;
+    text-align: left;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 4%;
+}
+
+div.LeftPanelContentBlock li:hover {
+    background-color: #ddddd5;
+}
+
+div.LeftPanelContentBlock a {
+    display: block;
+    font-weight: bold;
+    font-size: 0.9em;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    color: #383933;
+/*     color: #19655a; */
+} 
+
+div.LeftPanelContentBlock a:link {
+/*    color: #19655a; 
+    text-decoration: none;*/
+}
+
+div.LeftPanelContentBlock a:active {
+/*    color: white;
+    background-color: #19655a;*/
+}
+
+div.LeftPanelContentBlock a:visited,
+div.LeftPanelContentBlock a:hover {
+/*     text-decoration: none; */
+}
+
+/*************************** Login box in page header styles ****************************************/
+div#PageHeaderLoginBox {
+    float: left;
+    position: absolute;
+    width: 45%;
+    height: 126px;
+    margin-left: 25%;
+    background-color: #b9d15b;
+    text-align: left;
+    font-size: 0.8em;
+    font-family: Arial, Verdana, sans-serif;
+    color: white;
+}
+
+div#PageHeaderLoginBox div#LoginBoxTitle {
+    position: relative;
+    float: left;
+    width: 46%;
+    margin-left: 1%;
+    text-align: left;
+    font-size: 0.92em;
+    font-weight: bold;
+}
+
+div#PageHeaderLoginBox div#RegisterLink{
+    position: relative;
+    float:left;
+    width: 50%;
+    margin-left: 1%;
+    text-align: left;
+    font-weight: bold;
+}
+
+div#PageHeaderLoginBox div#ForgotLink{
+    position: relative;
+    float:left;
+    width: 40%;
+    margin-left: 1%;
+    margin-bottom: 3px;
+    text-align: left;
+    font-weight: bold;
+}
+
+div#PageHeaderLoginBox div#LoginUsername{
+    position: relative;
+    float: right;
+    width: 9em;
+    margin-top: 0;
+    margin-right: 0;
+}
+
+div#PageHeaderLoginBox div#LoginPassword{
+    position: relative;
+    float: right;
+    width: 9em;
+    margin-bottom: 4px;
+    margin-right: 0;
+}
+
+input#username, input#password {
+    width: 8em;
+    font-family: Arial, Verdana, sans-serif;
+    font-weight: bold;
+}
+
+div#LoginButton {
+    position: relative;
+    width: 6em;
+    float:right;
+    margin-right: 0.5em;
+    background-color: #b9d15b;
+}
+
+input#LoginButton, input#LogoutButton {
+    float:right;
+    margin-right:2px;
+}
+
+div#PageHeaderLoginBox table{
+    float: left;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+div#PageHeaderLoginBox table tr {
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#PageHeaderLoginBox div.renderWithName {
+    clear:both;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#PageHeaderLoginBox div.renderWithName input {
+    width: 8em;
+}
+
+div#PageHeaderLoginBox div.renderWithName div.left {
+    position: relative;
+    float: left;
+}
+
+div#PageHeaderLoginBox div.renderWithName div.right {
+    position: relative;
+    float: right;
+}
+
+div#PageHeaderLoginBox div.renderWithName div.right span.error {
+    position: relative;
+    display: block;
+    float: left;
+    clear: both;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
+    color: #600;
+}
+div#PageHeaderLoginBox{
+    position: absolute;
+    float:left;
+    width: 45%;
+    margin-left: 25%;
+    text-align: left;
+/*     font-weight: bold; */
+}
+div#OnlineStatus {
+    position: absolute;
+    float:left;
+    width: 90%;
+    margin-left: 4%;
+    text-align: left;
+}
+div#PageHeaderLoginBox div#OnlineStatus span{
+    float: left;
+    clear: both;
+}
+input#LogoutButton{
+    float: right;
+}
+/*  styles for shopping cart box when located in page header .. */
+div#PageHeaderShoppingCartBox {
+  width: 20%;
+  float: right;
+}
+
+/*div#PageHeaderLoginBox div.renderWithName div.left {
+    float: left;
+    width: 8em;
+    margin-right: auto;
+    margin-left: 1%;
+}
+div#PageHeaderLoginBox div.renderWithName div.right {
+    float: right;
+    width: 8em;
+    margin-right: 1%;
+    margin-left: auto;
+}*/
+
+/**********  create account form styling ******************/
+
+div#CenterPanelCreateAccountBlock{
+    width: 595px;
+    float: right;
+    margin-right: 0;
+    margin-top: 3%;
+    text-align: left;
+}
+
+div#CenterPanelCreateAccountBlock div.renderWithName {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#CenterPanelCreateAccountBlock div.renderWithName input{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#CenterPanelCreateAccountBlock div.renderWithName select{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#CenterPanelCreateAccountBlock div.renderWithName div.left {
+    float: left;
+    width: 45%;
+    margin-right: auto;
+    margin-left: 0;
+    margin-bottom:5px;
+    margin-top:5px;
+}
+
+div#CenterPanelCreateAccountBlock div.renderWithName div.right {
+    float: right;
+    width: 40%;
+    margin-right: 0;
+    margin-left: auto;
+    margin-bottom:4px;
+    margin-top:4px;
+}
+
+div#CenterPanelCreateAccountBlock div#formControls {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+div#CenterPanelCreateAccountBlock div#formActions {
+    clear: both;
+/*     background-color: #C02A16; */
+    padding: 10px;
+    height: 40px;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+div#CenterPanelCreateAccountBlock div#formActions div#save {
+    width: 15%;
+    float: left;
+    margin-right: auto;
+    margin-left: 3px;
+}
+div#CenterPanelCreateAccountBlock div#formActions div#cancel {
+    float: left;
+    width: 15%;
+    margin-right: auto;
+    margin-left: 25%;
+}
+div#CenterPanelCreateAccountBlock div#formActions div#reset {
+    width: 15%;
+    float: right;
+    margin-left: auto;
+    margin-right: 3px;
+}
+div#AccountWelcome {
+    width: 100%;
+    text-align: center;
+}
+/*
+div#ToolBarInner div#Tabbar {
+    float: left;
+    display: inline;
+    float: left;
+    width: 184px;
+    height: 1787px;
+    color: black;
+    background-color: #BBBBB6;
+    height: 1em;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ACC64C;
+    padding: 5px;
+    margin-left: 0;
+    margin-bottom: 1%;
+}*/
+
+div#ToolBarInner div#ToolBarBody div#pnlList {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+/*     border-top: 1px solid #000; */
+    padding: 5px;
+/*     height: 300px; */
+    overflow: auto;
+}
+div#ToolBarInner div#ToolBarBody div#pnlEdit {
+    margin-top: 3px;
+    border: 3px solid white;
+    padding: 5px;
+    background-color: #ddddd5;
+/*     height: 240px; */
+    overflow: auto;
+}
+
+div#ToolBarBody div.renderWithName {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+div#ToolBarBody div.renderWithName input{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+div#ToolBarBody div.renderWithName select{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+div#ToolBarBody div.renderWithName div.left {
+    float: left;
+    width: 40%;
+    margin-right: auto;
+    margin-left: 0;
+    margin-bottom:5px;
+    margin-top:5px;
+}
+div#ToolBarBody div.renderWithName div.right {
+    float: right;
+    width: 37%;
+    margin-right: 0;
+    margin-left: auto;
+    margin-bottom:4px;
+    margin-top:4px;
+}
+
+div#ToolBarBody div#formControls {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+div#ToolBarBody div#formControls table{
+    text-align: left;
+}
+div#ToolBarBody div#formActions {
+    clear: both;
+    display: inline;
+    background-color: #16675A;
+/*     padding: 10px; */
+    height: 20px;
+    margin-bottom: 0;
+    width: 95%;
+}
+
+div#ToolBarBody div#formActions div#save {
+    position: relative;
+    width: 15%;
+    float: left;
+    margin-right: auto;
+    margin-left: 3px;
+    margin-top: 3px;
+}
+div#ToolBarBody div#formActions div#cancel {
+    position: relative;
+    float:left;
+    width: 15%;
+    margin-right: auto;
+    margin-left: 25%;
+    margin-top: 3px;
+}
+div#ToolBarBody div#formActions div#delete {
+    position: relative;
+    width: 15%;
+    float: right;
+    margin-left: auto;
+    margin-right: 3px;
+    margin-top: 3px;
+}
+/********** OrderTotalsView Module ******** */
+#CheckOutModule div.OrderTotalsView{
+    width: 90%;
+    float:left;
+    margin-left: 5%;
+}
+div.OrderTotalsView,
+div.OrderTotalsList{
+    float:right;
+/*     margin-right: 1%; */
+    width: 60%;
+}
+#ToolBarTabs {
+    position: relative;
+    display: block;
+    float: left;
+    width: 184px;
+    color: black;
+/*     background-color: #BBBBB6; */
+    padding: 5px;
+    overflow: auto;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+div.ToolBarItem {
+    position: relative;
+    display: block;   
+    float: left;
+    font-weight: bold;
+    font-size: 0.7em;
+    font-family:  Arial, Verdana, Helvetica, sans-serif;
+    padding: 2px;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+    color: #16675A;
+    width: 10em;
+    text-align: left;
+    margin: 3px;
+}
+
+div.ToolBarItem:hover {
+    background-color:#ACC64C;    
+}
+
+.QFileInputDlg {
+    border: 3px solid #1c4a8c;
+    background-color: #fff;
+    padding: 20px;
+    width: 300px;
+    overflow: auto;
+    text-align: center;
+}
+.QFileInputDlg h1 {
+/*     margin: 0; */
+}
+.QFileInputDlg input {
+    padding: 3px;
+/*     margin-right: 5px; */
+}
+
+/* Lost Password styles */
+
+/* Address & Order lists */
+
+div.AddressListPanel,
+div.OrderListPanel
+{
+    padding: .5em .5em 1em .5em;
+    color: #383933;
+}
+
+div.AddressListPanel p {
+    margin-left: 1em;
+    margin-right: 1em;
+    font-family: 'Georgia', 'Times New Roman', 'Times';
+}
+
+div.AddressListPanel input.button { float: right; }

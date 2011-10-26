@@ -1,0 +1,309 @@
+
+%
+snapshot: Thu Jul 30 2008
+As of this snapshot, Quasi is still in a very early stage - this release is functional in some basic
+facilities and totally unfinished in others, it is provided mostly as a preview and to give
+those who are curious a look at the general architecture.
+
+ That said, you can make a website with it - but if you don't know what you are doing, don't. There
+has been very little attention given to security issues and although it may be fine there is no
+guarantee that it isn't full of holes. It is also likely to be a bit buggy. However, Quasi is designed
+first to be a developer's system; I have put quite a lot of effort into attempting to design a framework
+that is easy to work with, extensible and robust. It is also based on a toolkit (QCodo) that supports
+very rapid application development so if you are a web developer you may find it quite useful even
+as it is now.
+
+ Customization that you want to have independant from the core release can be done in a directory
+called "local/" in the same directory as "core/" -  it should mirror the structure of "core/"; Quasi will
+look there for stylesheets. assets, modules and the autoloader will look there for classes in files
+named with the convention <classname>.class.php. Stylesheets will cascade from core through
+contrib to local, class will be loaded in reverse falling back on core.
+
+ Code generation happens in "generated/", ORM subclasses are in [core|contrib|local]/orm and
+metacontrols in  [core|contrib|local]/meta_controls. The subclasses will be created if they do not
+exist but not overwritten, generated classes WILL be overwritten during generation. You can
+add to the database and code-generate and move your local subclasses to "local/orm" and Quasi
+will find them as needed. The base classes will always be under generated/[orm|meta_controls].
+
+ Panel and form drafts also go under generated/ - and generated/panels contains a mildy altered
+index page that serves as "admin/" until Quasi gets a "real" administrative UI. You can put a symlink
+in the root directory for convenience or surf to <quasiroot>/generated/panels/ to use the admin UI.
+
+ There are a couple of changes to QCodo's default set up that are needed to get things running - they
+are minor and detailed in the README.txt.
+
+ If you are interested in helping, find quasicms at sourceforge.net and have a look around - there are
+and will be many things to do and many ways to help. Bug reports are welcome.
+
+ Have fun!
+--erik
+ 
+%
+
+ The following is a casual treatment of some parts of the Quasi architecture - it is both unfinished and
+incomplete. Much more information is available in the comments of the classes in the CMS
+engine and the various modules and of course, if you really want to learn about it, "Read the source, Luke..".
+
+<CMS Engine>
+ Briefly, the engine runs off a single controller script: index.php and its template. This is an
+instance of class IndexPage which extends QForm. All requests are processed by this form.
+
+  The form inspects the Request URL and determines the Page name from the first part after
+the script name. It then loads a corresponding Page object and passes it to a new PageView.
+The PageView knows already which general blocks (divs) are active and it loads all ContentBlocks
+associated with the basic default areas, creating new ContentBlockViews for each and rendering
+them in order in the template. ContentBlocks go on to do the same for ContentItemViews,
+MenuViews (which in turn load MenuItems) and Modules.
+
+  The difference between a ContentItem (or Menu/MenuItem) and a Module is that a Module
+is active - that is, it does more than passively present data from the database. Any display
+that requires processing to display or recieves input that calls functions is a Module. These
+are created by writing a module class and placing in the modules subdirectory - it must be
+named following the convention of the other modules in this directory. Then enter it in the
+database with the class name and assign it to a ContentBlock - both things done through
+the admin interface. You can then go on to have the Module class include other classes,
+perform actions, create new panels, dialogs, input, etc. as desired. The final action is to
+ensure that the new module is required() at the top of the IndexPage. The engine will load
+it into the associated content block.
+
+  ContentItems and Menus are similar without the writing of a class - one simply creates a
+new item or menu in the admin interface and enters the desired content. Content may
+contain HTML, a WYSIWYG editor is planned. After saving the content or menu, it is
+assigned to a ContentBlock. Easy, huh? ;)
+
+  Menu items are the same process but they are assigned to a Menu.
+
+  ContentBlocks are assigned to a page and given a location on the Page: Header, RightPanel
+CenterPanel, LeftPanel or Footer - or one of the ExtraDivs. This is the default, however, it
+is trivial to change this by editting PageView and its template and entering other names
+in the block_location_type table in the database - there is no interface for this as yet (and
+remember to run the code generator after this!).
+
+  The administration interface is, er, basic at the moment - it lives in drafts/dashboard; those
+of you familiar with QCodo will know what it consists of which is the generated access to
+the ORM objects from the database schema. Much of the logic of  Quasi is in the database
+schema so this is not trivial, but it is as yet an area needing a layer of abstraction to be more
+user friendly. For now, you get the "power user" interface ..
+
+</CMS Engine>
+
+What follows are general notes about the architecture of the modules, lists, views and other
+misc features in the CMS.
+
+<Account Management>
+AccountManagerModule:
+  The Account page has a module that parses the PageParameters to determine which Account module
+to load. Eg. for Addresses/ it will acivate the AccountAddressesModule. This module in turn contains
+an instance of AccountAddressEditPanel and AccountAddressListPanel which it will manage. For a
+parameter like Addresses/2 it will go directly to the edit panel for that address but signalling the sub
+module. By default, the sub modules will show a list page if given no parameters. Each sub-module is
+a Page request, the actions within each of these are ajax calls.
+
+  The default Account modules managed by the AccountManagerModule are:
+    - AccountAddressesModule : addresses  viewing and management
+    - AccountOrdersModule : orders viewing and management
+    - AccountSettingsModule: contains the following
+        - AccountInfoModule : to change email address, avatar or personal name.
+        - AccountPasswordModule : change password and username
+        - AccountProfileModule : public profile information
+
+    
+</Account Management>
+
+
+ <Ecommerce>
+ 
+    Objects:
+        - Order
+        - Product
+        - Shopping cart
+        - Payment method
+        - Shipping method 
+        
+    Actors:
+        - Customer
+        - Second party payment processor
+        - Shipping party
+        - Employees
+    
+    Events:
+        - Browse products
+            initially this means the user is looking at their designs in the account section
+            the designs have an "add to cart" button possibly with a qty field next to it.
+            * do we offer this on the line item list or only individual item displays?
+        - Select products
+            customer triggers an "add to cart" action, parameters are design id and qty
+            * if no cart exists, create cart and insert into database. (???) or save as object with session or
+               account id ..
+            * add items to association table for the cart (shopping_cart_items)
+              > if it is a pcb_design, select design from pcb_designs
+                - if design.product_id == Null, create a product, set design.product_id;
+                  else simply add to association table
+        - check out process         
+            - Select payment method
+            - Select Shipping method
+            - Validate payment
+            - Record transaction
+
+Architecture:
+    Orders, Products, Customers. etc. are all ORM objects and the data is managed in the
+    database. These are dealt with in other parts of the documentation.
+
+    There are two main parts of the interactive part of the ecommerce extension: the shopping cart and the
+checkout process. The third part is passive display of products in lists or individually, ie. browsing.
+
+        ************************
+    Shopping cart: (Module/View)
+    The shopping cart is implemented as a module that is similar to the Login Module, it has a small content
+block view which is visible if a the viewer is logged in, and a page for viewing and modifying the cart contents.
+The contents are displayed in short form in the module and in detail on the ShoppingCart page. The shopping
+cart page is configured in the database to have the ShoppingCartView as the primary module in the main block
+of the page (usually CenterPanel). The items in the ShoppingCartView and the ShoppingCartMiniView are linked
+to product views. The ShoppingCartView is displayed when a user clicks on the "View Cart"
+button in the mini view. This is actually implemented as a redirect to the ShoppingCart page where the
+ShoppingCartView is the central module.
+
+        ************************
+    CheckOut: (Module - to be implemented, similar to Account Manager but with only two panels)
+    The checkout process occurs on a page. It contains a central management module: CheckOut. This manages the
+Items display, the Address selection, the Payment module and the Shipping module.
+
+    There are two panels involved CheckOutEditModule and CheckOutReviewModule, The first is for displaying
+the list of items, shipping and billing addresses and a selection of shipping methods. All of these may be modified
+on this panel.
+
+    On completion of selections of address, shipping method, etc, the CheckOutReviewModule is shown  where
+one can review the details of the order, select payment option and complete the purchase, or return to modify
+the details on the previous panel. These are not actual page loads, but two separate panels connected to the main
+Checkout Module which is the central module of the CheckOut page.
+
+    Basic Logic:
+        CheckOut module loads:
+            * CheckOutEditModule - panel for stage 1, containing item list, addresses w/editting and shipping
+              method selection
+                This loads:
+                    - CheckOutItemListModule - modifiable list of items
+                    - AddressViews - shipping and billing, with button to edit each. clicking the edit button hides
+                        the main panel and shows an AddressEditPanel
+                    - Radiolist for shipping options
+
+            * CheckOutReviewModule - panel for stage 2, display of item list, totals, addresses, and selected
+              shipping method followed by payment method selection at the bottom and a "Finish" button.
+                This loads:
+                    - passive display of items, totals, addresses and shipping method selected
+                    - PaymentModule
+                        gets a list of methods, creates PaymentMethodViews for each with an action
+                        associated that will trigger the appropriate PaymentAction ..
+
+            *CheckOutConfirmationModule - merely confirms the order after payment
+    
+    The Payment and Shipping modules manage the loading and placement of PaymentMethods and
+ShippingMethods (respectively). They also serve as the interface to the data obtained my the active or selected
+method.
+
+    The ShippingModule gets a list of active modules from the shipping_method table. For each, it gets a
+RateCalculator appropriate to the method from a "factory" method in the ShippingMethod class. Then it creates a
+radio button for the method and pushes it onto an array of radio buttons that are rendered in the template. Each
+button has an action to reset the SelectedMethod property in the ShippingModule.
+
+  The PaymentModule is slightly more complex. PaymentMethod is also an ORM class from the payment_method
+table, and it also provides a factory method to return a PaymentAction based on the service provider and the
+service type (like ShippingModule). However, rather than rendering these directly (as the requirements for each
+differ), PaymentModule creates  a PaymentAction for each method. This will be a subclass of
+PaymentActionBase for the method, eg AuthorizeNetAction, or PayPalIPNAction.  The PaymentAction
+is also subclassed for the provider and service in a similar way and the naming convention is the same.
+
+ PaymentModule - controller block view
+
+    creates:
+                
+        PaymentMethod - ORM model
+
+        creates:
+            PaymentAction - collect information and/or connect to provider to perform actual transaction
+             |_
+             |  \PayPalWPSAction 
+             |_
+             |  \AuthorizeNetAction
+             |_
+                 \etc ..
+                 
+
+Basic Workflow:
+
+    1. In PaymentModule
+        1.1 a list of active PaymentMethods is obtained from the database
+        1.2 an array of QRadioButtons is created, each has the PaymentMethod->Id as an action parameter
+        1.3 fields for credit card input are created. These are rendered below the payment options
+        1.4. PaymentAction for the method is created by PaymentModule::btn_Purchase_Click
+               when the user clicks "Purchase" based on the class_name field in payment_methods
+                - PaymentAction initilizes some defaults and other values are set according to the
+                  method's requirements - this is configuration data and the PaymentAction is responsible
+                  for knowing what to set.
+                - PaymentAction->PreProcess is called
+                - PaymentAction->Process is called
+                - PaymentAction->PostProcess is called
+
+PaymentActions:
+    PayPal Express Checkout
+     This is non-standard due to the requirements from PayPal - the PaymentActionView offers this as an option on the
+     review panel which will set the method and there is a "Check Out with PayPal" button at the bottom of the Edit
+     panel as well. Clicking the button will set the selected payment method _and_ trigger the PaymentAction while
+     selecting the option will only set the payment method, leaving the action to be triggered by the "Pay" button on
+     the review Panel.
+
+        ************************
+    Browsing Products:
+    Product Display (ListModule)
+    ProductDisplayModule extends the ListModuleBase in the same manner as the Account address module - it
+manages an ajax controlled set of panels for showing a list of products or a single product. The module
+parses the page parameters (derived from the URL, see the notes above for the Account manager module),
+
+        ************************
+     Order history:
+    Order viewing is handled as a ListModule in the Account Manager module - see  the Address manager module
+above and Product display.
+ 
+    =========================================
+ </Ecommerce>
+        
+ <Lost Password>
+  The LostPasswordModule is displayed on the Page "LostPassword", it performs the following actions:
+    1. Prompts the user for either username or email associated with the account.
+    2. Generates a new random password for the account
+        The user must input either the email for the account or the username
+    3. Sets the temporary password in the account and sets the flag onetime_password to true.
+    4. Emails the password to the user
+
+  The user can then use this to log in - the LoginModule checks the onetime_password flag; if set it will redirect the
+  user to the account password settings module. The following are the possible state changes:
+     
+    on signup
+        set onetime_password = false
+        set valid_password = true.
+
+    on lost password module resets password,
+        set onetime_password = true
+        set valid_password = true
+
+    on login
+         if  valid_password == false
+         then
+            show error page with link to "forgot password"
+         if onetime_password == true
+         then
+            redirect to AccountHome/Settings/Password
+            set valid_password = false
+            
+    on user resets password,
+        set onetime_password = false
+        set valid_password = true
+
+ 
+ </Lost Password>
+ 
+
+
+
+
+    
